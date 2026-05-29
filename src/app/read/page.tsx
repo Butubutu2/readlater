@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { ItemCard } from '@/components/ItemCard'
 import { EmptyState } from '@/components/EmptyState'
 import type { Item, PaginatedResponse } from '@/lib/types'
@@ -12,7 +12,7 @@ export default function ReadPage() {
   const [hasMore, setHasMore] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
 
-  async function fetchItems(cursorVal?: string) {
+  const fetchItems = useCallback(async (cursorVal?: string) => {
     const params = new URLSearchParams({ status: 'read', limit: '20' })
     if (cursorVal) params.set('cursor', cursorVal)
 
@@ -31,16 +31,30 @@ export default function ReadPage() {
     setHasMore(data.has_more)
     setLoading(false)
     setLoadingMore(false)
-  }
+  }, [])
 
   useEffect(() => {
     fetchItems()
-  }, [])
+  }, [fetchItems])
 
   function loadMore() {
     if (cursor && !loadingMore) {
       setLoadingMore(true)
       fetchItems(cursor)
+    }
+  }
+
+  async function handleMarkUnread(id: string) {
+    const res = await fetch(`/api/items/${id}/unread`, { method: 'POST' })
+    if (res.ok) {
+      setItems((prev) => prev.filter((i) => i.id !== id))
+    }
+  }
+
+  async function handleDelete(id: string) {
+    const res = await fetch(`/api/items/${id}`, { method: 'DELETE' })
+    if (res.ok) {
+      setItems((prev) => prev.filter((i) => i.id !== id))
     }
   }
 
@@ -66,7 +80,13 @@ export default function ReadPage() {
         <>
           <div className="space-y-3">
             {items.map((item) => (
-              <ItemCard key={item.id} item={item} />
+              <ItemCard
+                key={item.id}
+                item={item}
+                showActions
+                onMarkUnread={handleMarkUnread}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
 

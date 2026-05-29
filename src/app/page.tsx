@@ -84,6 +84,13 @@ export default function HomePage() {
     setPendingUrl(null)
   }
 
+  async function handleDelete(id: string) {
+    const res = await fetch(`/api/items/${id}`, { method: 'DELETE' })
+    if (res.ok) {
+      setItems((prev) => prev.filter((i) => i.id !== id))
+    }
+  }
+
   async function handleLogout() {
     const supabase = createClient()
     await supabase.auth.signOut()
@@ -133,7 +140,7 @@ export default function HomePage() {
       ) : (
         <div className="space-y-8">
           {sortedTags.map((tag) => (
-            <TagSection key={tag} tag={tag} items={grouped[tag]} />
+            <TagSection key={tag} tag={tag} items={grouped[tag]} onDelete={handleDelete} />
           ))}
         </div>
       )}

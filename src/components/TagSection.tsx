@@ -4,9 +4,11 @@ import { ItemCard } from './ItemCard'
 interface Props {
   tag: string
   items: Item[]
+  showActions?: boolean
+  onDelete?: (id: string) => void
 }
 
-export function TagSection({ tag, items }: Props) {
+export function TagSection({ tag, items, showActions, onDelete }: Props) {
   if (items.length === 0) return null
 
   return (
@@ -16,7 +18,12 @@ export function TagSection({ tag, items }: Props) {
       </h2>
       <div className="space-y-3">
         {items.map((item) => (
-          <ItemCard key={item.id} item={item} />
+          <ItemCard
+            key={item.id}
+            item={item}
+            showActions={showActions}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </section>
