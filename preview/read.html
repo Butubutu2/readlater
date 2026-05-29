@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadLater — 已读</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  <main class="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
+    <!-- 顶部导航 -->
+    <div class="mb-6 flex items-center justify-between">
+      <a href="home.html" class="text-sm text-gray-500 hover:text-gray-700">← 返回</a>
+      <h1 class="text-lg font-bold text-gray-900">已读</h1>
+      <div class="w-8"></div>
+    </div>
+
+    <!-- 已读内容列表 -->
+    <div class="space-y-3">
+      <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+          <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+        </div>
+        <div class="min-w-0 flex-1">
+          <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+            理解 Transformer 中的 Attention 机制
+          </h3>
+          <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+            从 Scaled Dot-Product Attention 到 Multi-Head Attention，深入理解注意力机制
+          </p>
+          <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+            <span>📺</span>
+            <span>12天前</span>
+            <span class="text-gray-300">· 已读</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <div class="min-w-0 flex-1 pl-0">
+          <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+            Tailwind CSS v4 新特性一览
+          </h3>
+          <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+            全新的 CSS-first 配置方式、性能优化和新增工具类
+          </p>
+          <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+            <span>💬</span>
+            <span>20天前</span>
+            <span class="text-gray-300">· 已读</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+          <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+        </div>
+        <div class="min-w-0 flex-1">
+          <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+            Go 1.22 发布，for 循环重大变更
+          </h3>
+          <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+            Go 1.22 修复了 for 循环变量捕获的老问题，并带来性能提升
+          </p>
+          <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+            <span>🔗</span>
+            <span>25天前</span>
+            <span class="text-gray-300">· 已读</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- 加载更多 -->
+    <div class="mt-6 text-center">
+      <button class="rounded-lg border border-gray-300 px-6 py-2 text-sm text-gray-600 hover:bg-gray-50">
+        加载更多
+      </button>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadLater — 主页</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  <!-- 背景：在主页底部加一个微弱的提示 -->
+  <main class="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
+    <!-- 顶部导航 -->
+    <div class="mb-6 flex items-center justify-between">
+      <h1 class="text-lg font-bold text-gray-900">ReadLater</h1>
+      <div class="flex items-center gap-3">
+        <a href="search.html" class="text-sm text-gray-500 hover:text-gray-700">搜索</a>
+        <a href="read.html" class="text-sm text-gray-500 hover:text-gray-700">已读</a>
+        <button class="text-sm text-gray-400 hover:text-gray-600">退出</button>
+      </div>
+    </div>
+
+    <!-- 录入模块 -->
+    <div class="relative mb-8">
+      <form class="flex gap-2">
+        <input
+          type="url"
+          placeholder="粘贴链接…"
+          class="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-gray-500 focus:outline-none"
+        />
+        <button
+          type="submit"
+          class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+        >
+          保存
+        </button>
+      </form>
+    </div>
+
+    <!-- AI 技术区块 -->
+    <section class="mb-8">
+      <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        AI 技术 · 5
+      </h2>
+      <div class="space-y-3">
+        <!-- 卡片 1：超过 14 天 → 红色色条 -->
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="absolute left-0 top-2 h-8 w-1 rounded-r bg-red-500"></div>
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              OpenAI 发布 GPT-5，多模态能力大幅提升
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              OpenAI 最新一代模型发布，支持图像、视频、音频的实时理解和生成
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>🔗</span>
+              <span>15天前</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 卡片 2：超过 7 天 → 橙色色条 -->
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="absolute left-0 top-2 h-8 w-1 rounded-r bg-orange-500"></div>
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              Claude 3.5 Sonnet 编程能力实测
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              对比 GPT-4o 和 Claude 3.5 Sonnet 在复杂前端项目中的表现差异
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>🔗</span>
+              <span>8天前</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 卡片 3：超过 3 天 → 琥珀色色条 -->
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="absolute left-0 top-2 h-8 w-1 rounded-r bg-amber-400"></div>
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              DeepSeek-V3 技术报告解读
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              详解 DeepSeek-V3 的 MoE 架构、训练策略和推理优化
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>🔗</span>
+              <span>4天前</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 卡片 4：未满 3 天 → 无色条 -->
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              LLM 推理加速技术全景图
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              Speculative Decoding、KV Cache 量化、Flash Attention 等技术的综合梳理
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>📺</span>
+              <span>1天前</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 卡片 5：无封面图 -->
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="min-w-0 flex-1 pl-0">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              AI 编程助手对比：Cursor vs Copilot vs Windsurf
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              三款主流 AI 编程助手的实际使用体验和功能对比
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>💬</span>
+              <span>今天</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 教程学习区块 -->
+    <section class="mb-8">
+      <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        教程学习 · 3
+      </h2>
+      <div class="space-y-3">
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              Next.js 14 完整教程：从零到部署
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              涵盖 App Router、Server Components、Server Actions 的实战教程
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>📺</span>
+              <span>2天前</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              Rust 异步编程入门
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              从 tokio 到 async/await，理解 Rust 的异步运行时
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>📺</span>
+              <span>5天前</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="group relative flex gap-3 rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+          <div class="absolute left-0 top-2 h-8 w-1 rounded-r bg-amber-400"></div>
+          <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+            <div class="flex h-full items-center justify-center text-xs text-gray-400">封面</div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="truncate text-sm font-medium text-gray-900 group-hover:text-gray-700">
+              System Design 面试必考：设计 YouTube
+            </h3>
+            <p class="mt-1 line-clamp-2 text-xs text-gray-500">
+              从视频上传、转码、CDN 分发到推荐的完整架构设计
+            </p>
+            <div class="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <span>🎵</span>
+              <span>3天前</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 底部导航 -->
+    <div class="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white/80 backdrop-blur-sm">
+      <div class="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
+        <span class="text-sm font-medium text-gray-900">未读 8</span>
+        <a href="read.html" class="text-sm text-gray-500 hover:text-gray-700">已读 &gt;</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

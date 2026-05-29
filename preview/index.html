@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadLater — 页面预览</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  <main class="mx-auto max-w-lg px-4 py-12">
+    <h1 class="mb-2 text-2xl font-bold">ReadLater</h1>
+    <p class="mb-8 text-sm text-gray-500">所有页面的静态预览，双击 HTML 文件即可在浏览器中打开</p>
+
+    <div class="space-y-4">
+      <a href="auth.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">🔐 登录 / 注册页 <span class="text-xs text-gray-400">auth.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">邮箱密码登录表单、切换注册</p>
+      </a>
+
+      <a href="home.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">🏠 主页（有内容） <span class="text-xs text-gray-400">home.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">录入模块 + 按标签分区的未读内容 + 3 天提醒色条（红/橙/琥珀）</p>
+      </a>
+
+      <a href="home-empty.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">📦 主页（空状态） <span class="text-xs text-gray-400">home-empty.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">首次使用的引导空状态</p>
+      </a>
+
+      <a href="read.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">📖 已读页 <span class="text-xs text-gray-400">read.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">已读内容列表 + 加载更多按钮</p>
+      </a>
+
+      <a href="search.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">🔍 搜索页 <span class="text-xs text-gray-400">search.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">关键词 + 标签 + 平台 + 状态组合筛选</p>
+      </a>
+
+      <a href="modal.html" class="block rounded-lg bg-white p-4 shadow-sm transition hover:shadow-md">
+        <h2 class="font-medium">💬 分类确认弹窗 <span class="text-xs text-gray-400">modal.html</span></h2>
+        <p class="mt-1 text-sm text-gray-500">粘贴链接后 AI 分类确认弹窗</p>
+      </a>
+
+      <div class="rounded-lg bg-gray-100 p-4 text-sm text-gray-500">
+        <p class="font-medium text-gray-700">💡 说明</p>
+        <p class="mt-1">这些是纯粹的静态 HTML 文件，用 Tailwind CDN 渲染样式。双击文件或用浏览器打开即可查看，不需要服务器、数据库或其他配置。</p>
+        <p class="mt-2">完整项目代码在 <code class="rounded bg-white px-1">readlater/src/</code> 目录中。</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

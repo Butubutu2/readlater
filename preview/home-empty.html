@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadLater — 空状态</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  <main class="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
+    <!-- 顶部导航 -->
+    <div class="mb-6 flex items-center justify-between">
+      <h1 class="text-lg font-bold text-gray-900">ReadLater</h1>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-gray-400">搜索</span>
+        <span class="text-sm text-gray-400">已读</span>
+        <button class="text-sm text-gray-400 hover:text-gray-600">退出</button>
+      </div>
+    </div>
+
+    <!-- 录入模块 -->
+    <div class="relative mb-8">
+      <form class="flex gap-2">
+        <input
+          type="url"
+          placeholder="粘贴链接…"
+          class="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-gray-500 focus:outline-none"
+        />
+        <button
+          type="submit"
+          class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+        >
+          保存
+        </button>
+      </form>
+    </div>
+
+    <!-- 空状态 -->
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="mb-4 text-4xl">📦</div>
+      <h2 class="text-lg font-medium text-gray-900">还没有收藏内容</h2>
+      <p class="mt-1 text-sm text-gray-500">粘贴一个链接开始，AI 会自动分类整理</p>
+    </div>
+  </main>
+
+  <!-- 底部导航 -->
+  <div class="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white/80 backdrop-blur-sm">
+    <div class="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
+      <span class="text-sm font-medium text-gray-900">未读 0</span>
+      <span class="text-sm text-gray-400">已读 &gt;</span>
+    </div>
+  </div>
+</body>
+</html>

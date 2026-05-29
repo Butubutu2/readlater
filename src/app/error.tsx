@@ -1,0 +1,33 @@
+'use client'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
+      <div className="mb-4 text-6xl">⚠️</div>
+      <h1 className="mb-2 text-xl font-bold text-gray-900">出错了</h1>
+      <p className="mb-8 text-sm text-gray-500">
+        发生了一个错误，请稍后重试
+      </p>
+      <div className="flex gap-3">
+        <button
+          onClick={() => window.history.back()}
+          className="rounded-lg border border-gray-300 px-6 py-2 text-sm text-gray-700 hover:bg-gray-50"
+        >
+          返回上一页
+        </button>
+        <button
+          onClick={reset}
+          className="rounded-lg bg-gray-900 px-6 py-2 text-sm font-medium text-white hover:bg-gray-800"
+        >
+          重试
+        </button>
+      </div>
+    </main>
+  )
+}
