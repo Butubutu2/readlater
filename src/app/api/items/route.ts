@@ -145,10 +145,10 @@ export async function POST(request: NextRequest) {
 
       // 如果是新标签，添加到 tags 表
       if (result.tag !== '未分类' && !existingTags.includes(result.tag)) {
-        await supabase
-          .from('tags')
-          .insert({ user_id: user.id, name: result.tag })
-          .ignoreDuplicates()
+        await supabase.from('tags').upsert(
+          { user_id: user.id, name: result.tag },
+          { onConflict: 'user_id,name', ignoreDuplicates: true }
+        )
       }
     } catch {
       // AI 失败，保持默认值
