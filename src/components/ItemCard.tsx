@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Item } from '@/lib/types'
+import { markLocalRead } from '@/lib/local-db'
 
 interface Props {
   item: Item
@@ -97,7 +98,12 @@ export function ItemCard({ item, showActions, onMarkUnread, onDelete }: Props) {
 
       {/* 卡片主体 — 点击跳转 */}
       <a
-        href={`/go?id=${item.id}`}
+        href={item.id.startsWith('local_') ? item.original_url : `/go?id=${item.id}`}
+        onClick={
+          item.id.startsWith('local_')
+            ? () => markLocalRead(item.id)
+            : undefined
+        }
         className="flex gap-3 p-4"
       >
         {/* 封面图 */}

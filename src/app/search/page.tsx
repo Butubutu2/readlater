@@ -4,12 +4,15 @@ import { Suspense, useEffect, useState, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ItemCard } from '@/components/ItemCard'
 import { EmptyState } from '@/components/EmptyState'
-import type { Item, PaginatedResponse } from '@/lib/types'
+import { Header } from '@/components/Header'
+import { fetchItems } from '@/lib/data-layer'
+import type { Item } from '@/lib/types'
 
 export default function SearchPageWrapper() {
   return (
     <Suspense fallback={
       <main className="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
+        <Header />
         <p className="text-center text-sm text-gray-400">加载中…</p>
       </main>
     }>
@@ -40,32 +43,23 @@ function SearchPage() {
   const [cursor, setCursor] = useState<string | null>(null)
   const [hasMore, setHasMore] = useState(false)
 
-  const fetchItems = useCallback(async (cursorVal?: string, append = false) => {
+  const doSearch = useCallback(async (cursorVal?: string, append = false) => {
     setLoading(true)
 
-    const params = new URLSearchParams({ limit: '20' })
-    if (query) params.set('q', query)
-    if (tagFilter) params.set('tag', tagFilter)
-    if (platformFilter) params.set('platform', platformFilter)
-    if (statusFilter) params.set('status', statusFilter)
-    if (cursorVal) params.set('cursor', cursorVal)
-
-    const res = await fetch(`/api/items?${params}`)
-    if (!res.ok) {
-      setLoading(false)
-      return
-    }
-
-    const data: PaginatedResponse<Item> = await res.json()
+    const data = await fetchItems({
+      q: query || undefined,
+      tag: tagFilter || undefined,
+      platform: (platformFilter || undefined) as Item['platform'] | undefined,
+      status: (statusFilter || undefined) as Item['status'] | undefined,
+      limit: 20,
+      cursor: cursorVal ?? undefined,
+    })
 
     if (append) {
       setItems((prev) => [...prev, ...data.items])
     } else {
       setItems(data.items)
-      // 提取所有标签
-      const tagSet = new Set<string>()
-      data.items.forEach((i) => { if (i.tag) tagSet.add(i.tag) })
-      setAllTags(Array.from(tagSet))
+      setAllTags(data.tags.map((t) => t.name))
     }
 
     setCursor(data.next_cursor)
@@ -73,7 +67,6 @@ function SearchPage() {
     setLoading(false)
   }, [query, tagFilter, platformFilter, statusFilter])
 
-  // URL 变化时重新搜索
   useEffect(() => {
     const q = searchParams.get('q') || ''
     const tag = searchParams.get('tag') || ''
@@ -81,9 +74,9 @@ function SearchPage() {
     const status = searchParams.get('status') || ''
 
     if (q || tag || platform || status) {
-      fetchItems()
+      doSearch()
     }
-  }, [searchParams, fetchItems])
+  }, [searchParams, doSearch])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -92,13 +85,12 @@ function SearchPage() {
     if (tagFilter) params.set('tag', tagFilter)
     if (platformFilter) params.set('platform', platformFilter)
     if (statusFilter) params.set('status', statusFilter)
-
     router.push(`/search?${params.toString()}`)
   }
 
   function loadMore() {
     if (cursor && !loading) {
-      fetchItems(cursor, true)
+      doSearch(cursor, true)
     }
   }
 
@@ -106,14 +98,7 @@ function SearchPage() {
 
   return (
     <main className="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
-      {/* 顶部导航 */}
-      <div className="mb-6 flex items-center justify-between">
-        <a href="/" className="text-sm text-gray-500 hover:text-gray-700">
-          ← 返回
-        </a>
-        <h1 className="text-lg font-bold text-gray-900">搜索</h1>
-        <div className="w-8" />
-      </div>
+      <Header />
 
       {/* 搜索表单 */}
       <form onSubmit={handleSearch} className="mb-4 space-y-3">
@@ -126,7 +111,6 @@ function SearchPage() {
         />
 
         <div className="flex gap-2">
-          {/* 标签筛选 */}
           <select
             value={tagFilter}
             onChange={(e) => setTagFilter(e.target.value)}
@@ -138,7 +122,6 @@ function SearchPage() {
             ))}
           </select>
 
-          {/* 平台筛选 */}
           <select
             value={platformFilter}
             onChange={(e) => setPlatformFilter(e.target.value)}
@@ -149,7 +132,6 @@ function SearchPage() {
             ))}
           </select>
 
-          {/* 状态筛选 */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -169,7 +151,6 @@ function SearchPage() {
         </button>
       </form>
 
-      {/* 搜索结果 */}
       {loading && items.length === 0 ? (
         <p className="text-center text-sm text-gray-400">搜索中…</p>
       ) : !hasFilters ? (

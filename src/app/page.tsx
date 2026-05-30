@@ -2,17 +2,18 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-client'
 import { LinkInput } from '@/components/LinkInput'
 import { TagSection } from '@/components/TagSection'
 import { CategoryConfirm } from '@/components/CategoryConfirm'
 import { EmptyState } from '@/components/EmptyState'
+import { Header } from '@/components/Header'
+import { fetchItems, addItem, deleteItem, getIsLoggedIn } from '@/lib/data-layer'
+import { normalizeUrl } from '@/lib/normalize-url'
+import { isLocalDuplicate } from '@/lib/local-db'
 import type { Item, PaginatedResponse } from '@/lib/types'
 
 export default function HomePage() {
-  const router = useRouter()
   const [items, setItems] = useState<Item[]>([])
-  const [tags, setTags] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [pendingUrl, setPendingUrl] = useState<{
     url: string
@@ -22,24 +23,10 @@ export default function HomePage() {
     normalized_url: string
   } | null>(null)
 
-  // 检查登录状态
-  useEffect(() => {
-    const supabase = createClient()
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        router.push('/auth')
-      }
-    })
-  }, [router])
-
-  const fetchItems = useCallback(async () => {
+  const loadItems = useCallback(async () => {
     try {
-      const res = await fetch('/api/items?status=unread&limit=100')
-      if (res.ok) {
-        const data: PaginatedResponse<Item> = await res.json()
-        setItems(data.items)
-        setTags(data.tags.map((t) => t.name))
-      }
+      const data = await fetchItems({ status: 'unread', limit: 200 })
+      setItems(data.items)
     } catch {
       // 静默失败
     }
@@ -47,8 +34,8 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
-    fetchItems()
-  }, [fetchItems])
+    loadItems()
+  }, [loadItems])
 
   // 按标签分组
   const grouped = items.reduce<Record<string, Item[]>>((acc, item) => {
@@ -58,7 +45,7 @@ export default function HomePage() {
     return acc
   }, {})
 
-  // 排序：按组内最早收藏时间的倒序
+  // 排序：按最早收藏时间倒序
   const sortedTags = Object.keys(grouped).sort((a, b) => {
     const aTime = Math.min(...grouped[a].map((i) => new Date(i.saved_at).getTime()))
     const bTime = Math.min(...grouped[b].map((i) => new Date(i.saved_at).getTime()))
@@ -72,12 +59,28 @@ export default function HomePage() {
     platform: string
     normalized_url: string
   }) {
+    // 本地去重
+    if (!getIsLoggedIn() && isLocalDuplicate(data.normalized_url)) {
+      alert('该内容已收藏')
+      return
+    }
     setPendingUrl(data)
   }
 
-  async function handleConfirm(_tag: string) {
+  async function handleConfirm(tag: string) {
     setPendingUrl(null)
-    await fetchItems()
+    if (!pendingUrl) return
+
+    await addItem({
+      original_url: pendingUrl.url,
+      normalized_url: pendingUrl.normalized_url,
+      title: pendingUrl.title,
+      cover_url: pendingUrl.cover_url,
+      platform: pendingUrl.platform as Item['platform'],
+      tag: tag || '未分类',
+      ai_summary: null,
+    })
+    await loadItems()
   }
 
   function handleCancel() {
@@ -85,21 +88,14 @@ export default function HomePage() {
   }
 
   async function handleDelete(id: string) {
-    const res = await fetch(`/api/items/${id}`, { method: 'DELETE' })
-    if (res.ok) {
-      setItems((prev) => prev.filter((i) => i.id !== id))
-    }
-  }
-
-  async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/auth')
+    await deleteItem(id)
+    setItems((prev) => prev.filter((i) => i.id !== id))
   }
 
   if (loading) {
     return (
       <main className="mx-auto max-w-lg px-4 py-8">
+        <Header />
         <p className="text-center text-sm text-gray-400">加载中…</p>
       </main>
     )
@@ -107,24 +103,7 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
-      {/* 顶部导航 */}
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-gray-900">ReadLater</h1>
-        <div className="flex items-center gap-3">
-          <a href="/search" className="text-sm text-gray-500 hover:text-gray-700">
-            搜索
-          </a>
-          <a href="/read" className="text-sm text-gray-500 hover:text-gray-700">
-            已读
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-sm text-gray-400 hover:text-gray-600"
-          >
-            退出
-          </button>
-        </div>
-      </div>
+      <Header />
 
       {/* 录入模块 */}
       <div className="relative mb-8">

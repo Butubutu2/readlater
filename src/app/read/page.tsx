@@ -3,7 +3,9 @@
 import { useEffect, useState, useCallback } from 'react'
 import { ItemCard } from '@/components/ItemCard'
 import { EmptyState } from '@/components/EmptyState'
-import type { Item, PaginatedResponse } from '@/lib/types'
+import { Header } from '@/components/Header'
+import { fetchItems, deleteItem, markUnread } from '@/lib/data-layer'
+import type { Item } from '@/lib/types'
 
 export default function ReadPage() {
   const [items, setItems] = useState<Item[]>([])
@@ -12,14 +14,8 @@ export default function ReadPage() {
   const [hasMore, setHasMore] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
 
-  const fetchItems = useCallback(async (cursorVal?: string) => {
-    const params = new URLSearchParams({ status: 'read', limit: '20' })
-    if (cursorVal) params.set('cursor', cursorVal)
-
-    const res = await fetch(`/api/items?${params}`)
-    if (!res.ok) return
-
-    const data: PaginatedResponse<Item> = await res.json()
+  const loadItems = useCallback(async (cursorVal?: string) => {
+    const data = await fetchItems({ status: 'read', limit: 20, cursor: cursorVal ?? undefined })
 
     if (cursorVal) {
       setItems((prev) => [...prev, ...data.items])
@@ -34,40 +30,29 @@ export default function ReadPage() {
   }, [])
 
   useEffect(() => {
-    fetchItems()
-  }, [fetchItems])
+    loadItems()
+  }, [loadItems])
 
   function loadMore() {
     if (cursor && !loadingMore) {
       setLoadingMore(true)
-      fetchItems(cursor)
+      loadItems(cursor)
     }
   }
 
   async function handleMarkUnread(id: string) {
-    const res = await fetch(`/api/items/${id}/unread`, { method: 'POST' })
-    if (res.ok) {
-      setItems((prev) => prev.filter((i) => i.id !== id))
-    }
+    await markUnread(id)
+    setItems((prev) => prev.filter((i) => i.id !== id))
   }
 
   async function handleDelete(id: string) {
-    const res = await fetch(`/api/items/${id}`, { method: 'DELETE' })
-    if (res.ok) {
-      setItems((prev) => prev.filter((i) => i.id !== id))
-    }
+    await deleteItem(id)
+    setItems((prev) => prev.filter((i) => i.id !== id))
   }
 
   return (
     <main className="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
-      {/* 顶部导航 */}
-      <div className="mb-6 flex items-center justify-between">
-        <a href="/" className="text-sm text-gray-500 hover:text-gray-700">
-          ← 返回
-        </a>
-        <h1 className="text-lg font-bold text-gray-900">已读</h1>
-        <div className="w-8" />
-      </div>
+      <Header />
 
       {loading ? (
         <p className="text-center text-sm text-gray-400">加载中…</p>
