@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase-client'
-import { getIsLoggedIn, clearAllLocalData } from '@/lib/data-layer'
+import { getIsLoggedIn, clearAllLocalData, clearLoggedInFlag } from '@/lib/data-layer'
 import { SyncDialog } from './SyncDialog'
 
 export function Header() {
@@ -34,6 +34,7 @@ export function Header() {
   async function confirmLogout(clearData: boolean) {
     setShowLogoutPrompt(false)
     if (clearData) clearAllLocalData()
+    clearLoggedInFlag()
     const supabase = createClient()
     await supabase.auth.signOut()
     setLoggedIn(false)

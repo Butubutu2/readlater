@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { getIsLoggedIn } from '@/lib/data-layer'
@@ -9,7 +9,7 @@ interface Props {
   cover_url: string | null
   platform: string
   normalized_url: string
-  onConfirm: (tag: string) => void
+  onConfirm: (tag: string, aiSummary?: string | null) => void
   onCancel: () => void
 }
 
@@ -66,7 +66,7 @@ export function CategoryConfirm({
   }, [title, cover_url])
 
   function handleSave() {
-    onConfirm(selectedTag)
+    onConfirm(selectedTag, classification?.summary)
   }
 
   const platformNames: Record<string, string> = {
@@ -128,7 +128,7 @@ export function CategoryConfirm({
               />
               {classification && !rateLimited && classification.confidence < 0.6 && (
                 <p className="mt-1 text-xs text-amber-600">
-                  AI 建议：{classification.tag}（置信度较低，已设为&ldquo;未分类&rdquo;）
+                  AI 建议：{classification.tag}（置信度较低，已设为"未分类"）
                 </p>
               )}
             </div>
@@ -150,7 +150,7 @@ export function CategoryConfirm({
 
             {!loggedIn && (
               <p className="text-center text-xs text-gray-400">
-                内容保存在本地 · <a href="/auth" className="text-blue-500 hover:underline">登录</a>可同步到云端
+                内容保存在本地· <a href="/auth" className="text-blue-500 hover:underline">登录</a>可同步到云端
               </p>
             )}
           </div>

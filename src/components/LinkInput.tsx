@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, FormEvent } from 'react'
 
@@ -58,27 +58,29 @@ export function LinkInput({ onParsed }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
-      <input
-        type="url"
-        placeholder="粘贴链接…"
-        value={url}
-        onChange={(e) => {
-          setUrl(e.target.value)
-          setError('')
-        }}
-        required
-        className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-gray-500 focus:outline-none"
-      />
-      <button
-        type="submit"
-        disabled={loading || !url.trim()}
-        className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
-      >
-        {loading ? '…' : '保存'}
-      </button>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+      <div className="flex gap-2">
+        <input
+          type="url"
+          placeholder="粘贴链接…"
+          value={url}
+          onChange={(e) => {
+            setUrl(e.target.value)
+            setError('')
+          }}
+          required
+          className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-gray-500 focus:outline-none"
+        />
+        <button
+          type="submit"
+          disabled={loading || !url.trim()}
+          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+        >
+          {loading ? '…' : '保存'}
+        </button>
+      </div>
       {error && (
-        <p className="absolute mt-10 text-sm text-red-500">{error}</p>
+        <p className="text-sm text-red-500">{error}</p>
       )}
     </form>
   )

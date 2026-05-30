@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
@@ -67,7 +67,7 @@ export default function HomePage() {
     setPendingUrl(data)
   }
 
-  async function handleConfirm(tag: string) {
+  async function handleConfirm(tag: string, aiSummary?: string | null) {
     setPendingUrl(null)
     if (!pendingUrl) return
 
@@ -78,7 +78,7 @@ export default function HomePage() {
       cover_url: pendingUrl.cover_url,
       platform: pendingUrl.platform as Item['platform'],
       tag: tag || '未分类',
-      ai_summary: null,
+      ai_summary: aiSummary ?? null,
     })
     await loadItems()
   }

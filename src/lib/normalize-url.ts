@@ -1,7 +1,7 @@
-import type { Platform } from './types'
+﻿import type { Platform } from './types'
 
 // ============================================================
-// URL 规范化 — 用于去重
+// URL 规范化 —— 用于去重
 // ============================================================
 
 /** 识别平台 */
@@ -13,7 +13,7 @@ export function detectPlatform(url: string): Platform {
   return 'other'
 }
 
-/** 微信公众号规范化 — 保留 `/s/{id}`，去除所有查询参数 */
+/** 微信公众号规范化 —— 保留 `/s/{id}`，去除所有查询参数 */
 function normalizeWechat(url: string): string {
   try {
     const u = new URL(url)
@@ -28,7 +28,7 @@ function normalizeWechat(url: string): string {
   }
 }
 
-/** B 站规范化 — 保留 `/video/{BV号}`，去除分 P 参数 */
+/** B 站规范化 —— 保留 `/video/{BV号}`，去除分 P 参数 */
 function normalizeBilibili(url: string): string {
   try {
     const u = new URL(url)
@@ -36,7 +36,7 @@ function normalizeBilibili(url: string): string {
     if (match) {
       return `https://www.bilibili.com/video/${match[1]}`
     }
-    // b23.tv 短链 — 需要先获取真实 URL（这里只做基础提取）
+    // b23.tv 短链 —— 需要先获取真实 URL（这里只做基础提取）
     if (url.includes('b23.tv')) {
       return url // 保留，调用方会进一步解析
     }
@@ -46,7 +46,7 @@ function normalizeBilibili(url: string): string {
   }
 }
 
-/** 抖音规范化 — 从短链提取视频标识符，零 HTTP 请求 */
+/** 抖音规范化 —— 从短链提取视频标识符，零 HTTP 请求 */
 function normalizeDouyin(url: string): string {
   try {
     const u = new URL(url)
@@ -61,15 +61,14 @@ function normalizeDouyin(url: string): string {
   }
 }
 
-/** 通用规范化 — HTTPS，统一域名，去除追踪参数 */
+/** 通用规范化 —— HTTPS，统一域名，去除追踪参数 */
 function normalizeGeneric(url: string): string {
   try {
     const u = new URL(url)
     // 强制 HTTPS
     u.protocol = 'https:'
-    // 统一域名（去除/添加 www）
-    const host = u.hostname.replace(/^www\./, '')
-    u.hostname = host.startsWith('www.') ? host : `www.${host}`
+    // 统一域名：去掉 www 前缀，使 example.com 和 www.example.com 归一
+    u.hostname = u.hostname.replace(/^www\./, '')
     // 去除常见追踪参数
     const trackingParams = [
       'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',

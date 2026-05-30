@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-client'
-import { syncToCloud } from '@/lib/data-layer'
+import { syncToCloud, setLoggedInFlag } from '@/lib/data-layer'
 
 type Mode = 'login' | 'register'
 
@@ -31,6 +31,7 @@ export function AuthForm() {
         return
       }
       // 注册后自动同步本地数据
+      setLoggedInFlag()
       setLoading(false)
       setSyncing(true)
       await syncToCloud()
@@ -44,6 +45,7 @@ export function AuthForm() {
         return
       }
       // 登录后自动同步本地数据
+      setLoggedInFlag()
       setLoading(false)
       setSyncing(true)
       await syncToCloud()
