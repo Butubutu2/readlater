@@ -51,8 +51,9 @@ export default function SearchPage() {
     } else {
       setItems(data.items)
       // 提取所有标签
-      const uniqueTags = [...new Set(data.items.map((i) => i.tag).filter(Boolean))]
-      setAllTags(uniqueTags as string[])
+      const tagSet = new Set<string>()
+      data.items.forEach((i) => { if (i.tag) tagSet.add(i.tag) })
+      setAllTags(Array.from(tagSet))
     }
 
     setCursor(data.next_cursor)
