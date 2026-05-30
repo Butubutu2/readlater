@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
 
+export const runtime = 'edge'
+
 // ============================================================
 // GET /go?id=xxx — 标记已读 + 302 重定向到原文
 // ============================================================

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
 
+export const runtime = 'edge'
+
 // ============================================================
 // DELETE /api/items/:id — 删除内容
 // ============================================================

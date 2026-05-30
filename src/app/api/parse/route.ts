@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
+
+export const runtime = 'edge'
 import { normalizeUrl } from '@/lib/normalize-url'
 import { parseMetadata } from '@/lib/parse-metadata'
 
