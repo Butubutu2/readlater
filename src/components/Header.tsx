@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-client'
 import { getIsLoggedIn, clearAllLocalData, clearLoggedInFlag } from '@/lib/data-layer'
 import { SyncDialog } from './SyncDialog'
 
 export function Header() {
+  const router = useRouter()
   const [loggedIn, setLoggedIn] = useState(false)
   const [showLoginPrompt, setShowLoginPrompt] = useState(false)
   const [showLogoutPrompt, setShowLogoutPrompt] = useState(false)
@@ -24,7 +26,7 @@ export function Header() {
 
   function goLogin() {
     setShowLoginPrompt(false)
-    window.location.href = '/auth'
+    router.push('/auth')
   }
 
   function handleLogout() {
