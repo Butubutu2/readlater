@@ -1,10 +1,22 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { Suspense, useEffect, useState, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ItemCard } from '@/components/ItemCard'
 import { EmptyState } from '@/components/EmptyState'
 import type { Item, PaginatedResponse } from '@/lib/types'
+
+export default function SearchPageWrapper() {
+  return (
+    <Suspense fallback={
+      <main className="mx-auto min-h-screen max-w-lg px-4 pb-20 pt-4">
+        <p className="text-center text-sm text-gray-400">加载中…</p>
+      </main>
+    }>
+      <SearchPage />
+    </Suspense>
+  )
+}
 
 const PLATFORMS = [
   { value: '', label: '全部平台' },
@@ -13,7 +25,7 @@ const PLATFORMS = [
   { value: 'douyin', label: '抖音' },
 ]
 
-export default function SearchPage() {
+function SearchPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
