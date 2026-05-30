@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
 
-export const runtime = 'edge'
 import { classifyWithGLM } from '@/lib/glm'
 
 export async function POST(request: NextRequest) {

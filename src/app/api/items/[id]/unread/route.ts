@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
 
-export const runtime = 'edge'
-
 // ============================================================
 // POST /api/items/:id/unread — 标记为未读
 // ============================================================
